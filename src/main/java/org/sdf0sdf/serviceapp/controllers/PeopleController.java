@@ -47,7 +47,7 @@ public class PeopleController {
 		}
 
 		personDAO.save(person);
-		return ResponseEntity.status(HttpStatus.OK).body("");
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@GetMapping("/{id}/edit")
