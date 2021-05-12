@@ -1,5 +1,6 @@
 package org.sdf0sdf.serviceapp.entitites;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,12 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -44,6 +47,10 @@ public class Claim {
 	@JoinColumn(name="service_center_id", foreignKey = @ForeignKey(name = "fk2_claims"))
 	private ServiceCenter servicecenter;
 
+//	@OneToOne(cascade = CascadeType.ALL, mappedBy = "claim_progress")
+//	@Where(clause = "isActive = false")
+//	private ClaimProgress claimprogress;
+	
 	public Claim() {
 
 	}
