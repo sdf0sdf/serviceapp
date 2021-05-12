@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
@@ -38,16 +39,16 @@ public class Claim {
 	private String sn;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="product_type_id", foreignKey = @ForeignKey(name = "fk1_claims"))
 	private ProductType producttype;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="service_center_id", foreignKey = @ForeignKey(name = "fk2_claims"))
 	private ServiceCenter servicecenter;
 
-//	@OneToOne(cascade = CascadeType.ALL, mappedBy = "claim_progress")
+//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "claim_progress")
 //	@Where(clause = "isActive = false")
 //	private ClaimProgress claimprogress;
 	
