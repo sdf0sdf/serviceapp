@@ -98,6 +98,13 @@
 			<artifactId>jackson-core</artifactId>
 			<version>2.12.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
+			<scope>provided</scope>
+		</dependency>
 
 	</dependencies>
 
@@ -128,7 +135,7 @@
 					<configuration>
 						<warName>serviceapp</warName>
 						<attachClasses>true</attachClasses>
-						<webXml>target/WEB-INF/web.xml</webXml>
+						<webXml>target/ServiceApp/WEB-INF/web.xml</webXml>
 						<webResources>
 							<resource>
 								<directory>src/main/webapp</directory>

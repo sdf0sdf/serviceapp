@@ -46,11 +46,14 @@ public class HibernateConfig {
 
 	private final Properties hibernateProperties() {
 		Properties hibernateProperties = new Properties();
-		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create");
 		hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 		hibernateProperties.setProperty("hibernate.hbm2ddl.import_files_sql_extractor", 
 				"org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor");
 		hibernateProperties.setProperty("hibernate.hbm2ddl.import_files", "data.sql");
+		hibernateProperties.setProperty("hibernate.show_sql", "true");
+		hibernateProperties.setProperty("hibernate.default_schema", "public");
+		hibernateProperties.put("hibernate.default_schema", "");
 		return hibernateProperties;
 	}
 }

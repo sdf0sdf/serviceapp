@@ -5,7 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.sdf0sdf.serviceapp.dao.PersonDAO;
-import org.sdf0sdf.serviceapp.models.Person;
+import org.sdf0sdf.serviceapp.entitites.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
