@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.sdf0sdf.serviceapp.dao.ClaimDAO;
 import org.sdf0sdf.serviceapp.entitites.Claim;
+import org.sdf0sdf.serviceapp.entitites.ClaimsView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +33,13 @@ public class ClaimsController {
 	}
 	
 	@GetMapping()
-	public ResponseEntity<List<Claim>> index() {
-		return new ResponseEntity<List<Claim>>(claimDAO.index(), HttpStatus.OK);
+	public ResponseEntity<List<ClaimsView>> index() {
+		return new ResponseEntity<List<ClaimsView>>(claimDAO.index(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Claim> show(@PathVariable("id") int id) {
-		return new ResponseEntity<Claim>(claimDAO.show(id), HttpStatus.OK);
+	public ResponseEntity<ClaimsView> show(@PathVariable("id") int id) {
+		return new ResponseEntity<ClaimsView>(claimDAO.show(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/new")

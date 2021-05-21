@@ -1,9 +1,9 @@
 package org.sdf0sdf.serviceapp.entitites;
 
-import javax.persistence.CascadeType;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,15 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.Where;
 import org.hibernate.validator.constraints.Length;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "claims")
@@ -47,22 +45,34 @@ public class Claim {
 	@ManyToOne
 	@JoinColumn(name="service_center_id", foreignKey = @ForeignKey(name = "fk2_claims"))
 	private ServiceCenter servicecenter;
-
-//	@OneToMany(cascade = CascadeType.ALL, mappedBy = "claim_progress")
-//	@Where(clause = "isActive = false")
-//	private ClaimProgress claimprogress;
+	
+	@JsonIgnore
+	@NotNull
+	@OneToMany
+	@JoinColumn(name="claim_id")
+	private List<ClaimProgress> claimprogresslist;
 	
 	public Claim() {
 
 	}
 	public Claim(int id, @NotEmpty @Length(max = 10) String claimno, @NotEmpty @Length(max = 10) String sn,
-			@NotNull ProductType producttype, @NotNull ServiceCenter servicecenter) {
+			@NotNull ProductType producttype, @NotNull ServiceCenter servicecenter, @NotNull List<ClaimProgress> claimprogresslist) {
 		super();
 		this.id = id;
 		this.claimno = claimno;
 		this.sn = sn;
 		this.producttype = producttype;
 		this.servicecenter = servicecenter;
+		this.claimprogresslist = claimprogresslist;
+	}
+	
+	public Claim(Claim claim) {
+		super();
+		this.id = claim.id;
+		this.claimno = claim.claimno;
+		this.sn = claim.sn;
+		this.producttype = claim.producttype;
+		this.servicecenter = claim.servicecenter;
 	}
 
 	public int getId() {
@@ -71,14 +81,6 @@ public class Claim {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getClaim_no() {
-		return claimno;
-	}
-
-	public void setClaim_no(String claim_no) {
-		this.claimno = claim_no;
 	}
 
 	public String getSn() {
@@ -105,6 +107,18 @@ public class Claim {
 		this.servicecenter = servicecenter;
 	}
 
+	public String getClaimno() {
+		return claimno;
+	}
+	public void setClaimno(String claimno) {
+		this.claimno = claimno;
+	}
+	public List<ClaimProgress> getClaimprogresslist() {
+		return claimprogresslist;
+	}
+	public void setClaimprogresslist(List<ClaimProgress> claimprogresslist) {
+		this.claimprogresslist = claimprogresslist;
+	}
 	@Override
 	public String toString() {
 		return "Claim [id=" + id + ", claimno=" + claimno + ", sn=" + sn + ", producttype=" + producttype

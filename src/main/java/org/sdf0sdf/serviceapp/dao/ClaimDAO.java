@@ -1,11 +1,12 @@
 package org.sdf0sdf.serviceapp.dao;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.sdf0sdf.serviceapp.entitites.Claim;
+import org.sdf0sdf.serviceapp.entitites.ClaimsView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,20 +16,33 @@ public class ClaimDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	public List<Claim> index() {
+//	public List<ClaimView> index() {
+//		Session session = this.sessionFactory.openSession();
+//		List<ClaimView> claims = session.createQuery("select NEW ClaimView (c, cp) \n" + 
+//				"  from Claim c,\n" + 
+//				"       ClaimProgress cp\n" + 
+//				" where c.id = cp.claim\n" + 
+//				"   and cp.claimprogressdate = \n" + 
+//				"   (select max(cps.claimprogressdate) from ClaimProgress cps where cps.claim = c.id)", ClaimView.class).getResultList();
+//		session.close();
+//		return claims;
+//	}
+
+	public List<ClaimsView> index() {
 		Session session = this.sessionFactory.openSession();
-		List<Claim> claims = session.createQuery("select c from Claim c", Claim.class).getResultList();
+		List<Claim> claims = session.createQuery("select c \n" + "  from Claim c ", Claim.class).getResultList();
+		List<ClaimsView> claimsview = claims.stream().map(x -> new ClaimsView(x)).collect(Collectors.toList());
 		session.close();
-		return claims;
+		return claimsview;
 	}
-	
-	public Claim show(int id) {
+
+	public ClaimsView show(int id) {
 		Session session = this.sessionFactory.openSession();
-		Claim claim = session.get(Claim.class, id);
+		ClaimsView claim = session.get(ClaimsView.class, id);
 		session.close();
 		return claim;
 	}
-	
+
 	public void save(Claim claim) {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -36,7 +50,7 @@ public class ClaimDAO {
 		tx.commit();
 		session.close();
 	}
-	
+
 	public void update(int id, Claim updatedClaim) {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
@@ -44,12 +58,12 @@ public class ClaimDAO {
 		tx.commit();
 		session.close();
 	}
-	
+
 	public void delete(int id) {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
-		Claim claim = (Claim)session.load(Claim.class,id);
-	    session.delete(claim);
+		Claim claim = (Claim) session.load(Claim.class, id);
+		session.delete(claim);
 		tx.commit();
 		session.close();
 

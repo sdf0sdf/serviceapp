@@ -16,6 +16,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "claims_progress")
 public class ClaimProgress {
@@ -23,6 +25,7 @@ public class ClaimProgress {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@JsonIgnore
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "claim_id", foreignKey=@ForeignKey(name = "fk1_claims_progress"))	
@@ -87,14 +90,12 @@ public class ClaimProgress {
 		this.comment = comment;
 	}
 
-	public Date getClaim_progress_date() {
+	public Date getClaimprogressdate() {
 		return claimprogressdate;
 	}
-
-	public void setClaim_progress_date(Date claimprogressdate) {
+	public void setClaimprogressdate(Date claimprogressdate) {
 		this.claimprogressdate = claimprogressdate;
 	}
-
 	@Override
 	public String toString() {
 		return "ClaimProgress [id=" + id + ", claim=" + claim + ", claimstatus=" + claimstatus + ", comment=" + comment

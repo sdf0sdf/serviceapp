@@ -1,35 +1,29 @@
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Смартфоны');
+insert into public.product_types values(nextval('public.product_types_id_seq'), 'Smartphones');
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Планшеты');
+insert into public.product_types values(nextval('public.product_types_id_seq'), 'Tablets');
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Гаджеты');
+insert into public.product_types values(nextval('public.product_types_id_seq'), 'Headphones');
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Аксессуары для планшетов');
+insert into public.product_types values(nextval('public.product_types_id_seq'), 'Laptops');
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Аксессуары для смартфонов');
+insert into public.product_types values(nextval('public.product_types_id_seq'), 'Computers');
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Наушники');
+insert into public.service_centers values(nextval('public.service_centers_id_seq'), 'Moscow');
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Ноутбуки');
+insert into public.service_centers values(nextval('public.service_centers_id_seq'), 'Saint-Petersburg');
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Компьютеры');
+insert into public.service_centers values(nextval('public.service_centers_id_seq'), 'Nizhny Novgorod');
 
-insert into public.product_types values(nextval('public.product_types_id_seq'), 'Комплектующие для ПК');
+insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'New');
 
-insert into public.service_centers values(nextval('public.service_centers_id_seq'), 'Москва');
+insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'In progress');
 
-insert into public.service_centers values(nextval('public.service_centers_id_seq'), 'Санкт-Петербург');
+insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'Done');
 
-insert into public.service_centers values(nextval('public.service_centers_id_seq'), 'Нижний Новгород');
+insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'Closed');
 
-insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'Новое');
-
-insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'В работе');
-
-insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'Выполнено');
-
-insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'Закрыто');
+insert into public.claim_status values(nextval('public.claim_status_id_seq'), 'Cancelled');
 
 INSERT INTO public.claims VALUES (nextval('public.claims_id_seq'),'claim_no_1','sn1',1,1);
 
