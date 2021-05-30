@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.sdf0sdf.serviceapp.dao.ClaimProgressDAO;
 import org.sdf0sdf.serviceapp.entitites.ClaimProgress;
+import org.sdf0sdf.serviceapp.entitites.ClaimStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +42,10 @@ public class ClaimProgressController {
 		}
 		claimProgressDAO.save(claimprogress);
 		return ResponseEntity.status(HttpStatus.OK).build();
+	}
+	
+	@GetMapping("/claimstatuses")
+	public ResponseEntity<List<ClaimStatus>> getServiceCenters() {
+		return new ResponseEntity<List<ClaimStatus>>(claimProgressDAO.getClaimStatuses(), HttpStatus.OK);
 	}
 }

@@ -27,7 +27,7 @@ public class ClaimProgress {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@JsonIgnore
+	//@JsonIgnore
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "claim_id", foreignKey = @ForeignKey(name = "fk1_claims_progress"))
