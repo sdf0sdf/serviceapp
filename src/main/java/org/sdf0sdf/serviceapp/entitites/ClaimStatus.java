@@ -17,6 +17,8 @@ public class ClaimStatus {
 	@NotEmpty
 	private String name;
 	
+	public static final ClaimStatus CLAIM_STATUS_NEW = new ClaimStatus(1, "");
+	
 	ClaimStatus(){
 		
 	}
@@ -27,6 +29,10 @@ public class ClaimStatus {
 		this.name = name;
 	}
 
+	public ClaimStatus get() {
+		return this;
+	}
+	
 	public int getId() {
 		return id;
 	}

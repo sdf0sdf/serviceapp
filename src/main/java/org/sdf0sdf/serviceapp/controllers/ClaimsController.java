@@ -1,12 +1,18 @@
 package org.sdf0sdf.serviceapp.controllers;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.sdf0sdf.serviceapp.dao.ClaimDAO;
+import org.sdf0sdf.serviceapp.dao.ClaimProgressDAO;
 import org.sdf0sdf.serviceapp.entitites.Claim;
+import org.sdf0sdf.serviceapp.entitites.ClaimProgress;
+import org.sdf0sdf.serviceapp.entitites.ClaimStatus;
 import org.sdf0sdf.serviceapp.entitites.ClaimsView;
+import org.sdf0sdf.serviceapp.entitites.ProductType;
+import org.sdf0sdf.serviceapp.entitites.ServiceCenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,18 +48,18 @@ public class ClaimsController {
 		return new ResponseEntity<ClaimsView>(claimDAO.show(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/new")
-	public ResponseEntity<Claim> newClaim(@ModelAttribute("claim") Claim claim) {
-		return new ResponseEntity<Claim>(claim, HttpStatus.OK);
-	}
-
 	@PostMapping()
 	@Valid
-	public ResponseEntity<String> create(@RequestBody @Valid Claim claim, BindingResult bindingResult) {
+	public ResponseEntity<String> create(@RequestBody @Valid ClaimsView claimsview, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getAllErrors().toString());
 		}
 
+		Claim claim = new Claim(claimsview);
+		ClaimProgress claimprogress = new ClaimProgress(claimsview.getClaimprogress());
+		claimprogress.setClaim(claim);
+		claimprogress.setClaimstatus(ClaimStatus.CLAIM_STATUS_NEW);
+		claim.setClaimprogresslist(Arrays.asList(claimprogress));
 		claimDAO.save(claim);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
@@ -70,7 +76,8 @@ public class ClaimsController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Bad request");
 		}
 
-		claimDAO.update(id, claim);
+		claim.setId(id);
+		claimDAO.update(claim);
 		return ResponseEntity.status(HttpStatus.OK).body("");
 	}
 
@@ -78,5 +85,15 @@ public class ClaimsController {
 	public ResponseEntity<String> delete(@PathVariable("id") int id) {
 		claimDAO.delete(id);
 		return ResponseEntity.status(HttpStatus.OK).body("");
+	}
+	
+	@GetMapping("/producttypes")
+	public ResponseEntity<List<ProductType>> getProductTypes() {
+		return new ResponseEntity<List<ProductType>>(claimDAO.getProductTypes(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/servicecenters")
+	public ResponseEntity<List<ServiceCenter>> getServiceCenters() {
+		return new ResponseEntity<List<ServiceCenter>>(claimDAO.getServiceCenters(), HttpStatus.OK);
 	}
 }

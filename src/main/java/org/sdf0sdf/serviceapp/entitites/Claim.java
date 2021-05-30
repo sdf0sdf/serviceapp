@@ -2,6 +2,7 @@ package org.sdf0sdf.serviceapp.entitites;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -12,9 +13,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Formula;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,46 +30,41 @@ public class Claim {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	@NotNull
-	@Length(max = 10)
-	@Column(name="claim_no", unique = true)
+	@Transient
 	private String claimno;
 
 	@NotNull
 	@Length(max = 10)
-	@Column(unique = true)
 	private String sn;
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="product_type_id", foreignKey = @ForeignKey(name = "fk1_claims"))
+	@JoinColumn(name = "product_type_id", foreignKey = @ForeignKey(name = "fk1_claims"))
 	private ProductType producttype;
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="service_center_id", foreignKey = @ForeignKey(name = "fk2_claims"))
+	@JoinColumn(name = "service_center_id", foreignKey = @ForeignKey(name = "fk2_claims"))
 	private ServiceCenter servicecenter;
-	
+
 	@JsonIgnore
-	@NotNull
-	@OneToMany
-	@JoinColumn(name="claim_id")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "claim")
 	private List<ClaimProgress> claimprogresslist;
-	
+
 	public Claim() {
 
 	}
-	public Claim(int id, @NotEmpty @Length(max = 10) String claimno, @NotEmpty @Length(max = 10) String sn,
-			@NotNull ProductType producttype, @NotNull ServiceCenter servicecenter, @NotNull List<ClaimProgress> claimprogresslist) {
+
+	public Claim(int id, @NotEmpty @Length(max = 10) String sn, @NotNull ProductType producttype,
+			@NotNull ServiceCenter servicecenter, List<ClaimProgress> claimprogresslist) {
 		super();
 		this.id = id;
-		this.claimno = claimno;
 		this.sn = sn;
 		this.producttype = producttype;
 		this.servicecenter = servicecenter;
 		this.claimprogresslist = claimprogresslist;
 	}
-	
+
 	public Claim(Claim claim) {
 		super();
 		this.id = claim.id;
@@ -108,17 +107,17 @@ public class Claim {
 	}
 
 	public String getClaimno() {
-		return claimno;
+		return this.servicecenter.getName() + "/" + this.id;
 	}
-	public void setClaimno(String claimno) {
-		this.claimno = claimno;
-	}
+
 	public List<ClaimProgress> getClaimprogresslist() {
 		return claimprogresslist;
 	}
+
 	public void setClaimprogresslist(List<ClaimProgress> claimprogresslist) {
 		this.claimprogresslist = claimprogresslist;
 	}
+
 	@Override
 	public String toString() {
 		return "Claim [id=" + id + ", claimno=" + claimno + ", sn=" + sn + ", producttype=" + producttype

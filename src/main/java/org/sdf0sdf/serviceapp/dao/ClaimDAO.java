@@ -7,6 +7,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.sdf0sdf.serviceapp.entitites.Claim;
 import org.sdf0sdf.serviceapp.entitites.ClaimsView;
+import org.sdf0sdf.serviceapp.entitites.ProductType;
+import org.sdf0sdf.serviceapp.entitites.ServiceCenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,9 +40,10 @@ public class ClaimDAO {
 
 	public ClaimsView show(int id) {
 		Session session = this.sessionFactory.openSession();
-		ClaimsView claim = session.get(ClaimsView.class, id);
+		Claim claim = session.get(Claim.class, id);
+		ClaimsView claimsview = new ClaimsView(claim);
 		session.close();
-		return claim;
+		return claimsview;
 	}
 
 	public void save(Claim claim) {
@@ -51,7 +54,7 @@ public class ClaimDAO {
 		session.close();
 	}
 
-	public void update(int id, Claim updatedClaim) {
+	public void update(Claim updatedClaim) {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		session.update(updatedClaim);
@@ -63,9 +66,26 @@ public class ClaimDAO {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		Claim claim = (Claim) session.load(Claim.class, id);
-		session.delete(claim);
+		session.remove(claim);
 		tx.commit();
 		session.close();
 
 	}
+
+	public List<ProductType> getProductTypes() {
+		Session session = this.sessionFactory.openSession();
+		List<ProductType> producttypes = session
+				.createQuery("select pt \n" + "  from ProductType pt ", ProductType.class).getResultList();
+		session.close();
+		return producttypes;
+	}
+
+	public List<ServiceCenter> getServiceCenters() {
+		Session session = this.sessionFactory.openSession();
+		List<ServiceCenter> servicecenters = session
+				.createQuery("select pt \n" + "  from ServiceCenter pt ", ServiceCenter.class).getResultList();
+		session.close();
+		return servicecenters;
+	}
+
 }
