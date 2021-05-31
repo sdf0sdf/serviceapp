@@ -8,17 +8,15 @@ import org.sdf0sdf.serviceapp.dao.ClaimProgressDAO;
 import org.sdf0sdf.serviceapp.entitites.ClaimProgress;
 import org.sdf0sdf.serviceapp.entitites.ClaimStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/claimprogress")
 public class ClaimProgressController {
 
@@ -30,22 +28,22 @@ public class ClaimProgressController {
 	}
 
 	@GetMapping("/claim/{claimId}")
-	public ResponseEntity<List<ClaimProgress>> show(@PathVariable("claimId") int claimId) {
-		return new ResponseEntity<List<ClaimProgress>>(claimProgressDAO.show(claimId), HttpStatus.OK);
+	public List<ClaimProgress> show(@PathVariable("claimId") int claimId) {
+		return claimProgressDAO.show(claimId);
 	}
 
 	@PostMapping()
 	@Valid
-	public ResponseEntity<String> create(@RequestBody @Valid ClaimProgress claimprogress, BindingResult bindingResult) {
+	public String create(@RequestBody @Valid ClaimProgress claimprogress, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(bindingResult.getAllErrors().toString());
+			return bindingResult.getAllErrors().toString();
 		}
 		claimProgressDAO.save(claimprogress);
-		return ResponseEntity.status(HttpStatus.OK).build();
+		return "";
 	}
 	
 	@GetMapping("/claimstatuses")
-	public ResponseEntity<List<ClaimStatus>> getServiceCenters() {
-		return new ResponseEntity<List<ClaimStatus>>(claimProgressDAO.getClaimStatuses(), HttpStatus.OK);
+	public List<ClaimStatus> getServiceCenters() {
+		return claimProgressDAO.getClaimStatuses();
 	}
 }
