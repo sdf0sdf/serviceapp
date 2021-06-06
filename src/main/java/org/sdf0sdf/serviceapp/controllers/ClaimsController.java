@@ -57,7 +57,7 @@ public class ClaimsController {
 		claimprogress.setClaimstatus(ClaimStatus.CLAIM_STATUS_NEW);
 		claim.setClaimprogresslist(Arrays.asList(claimprogress));
 		claimDAO.save(claim);
-		return "";
+		return String.valueOf(claim.getId());
 	}
 
 	@GetMapping("/{id}/edit")
