@@ -25,23 +25,22 @@ public class AppUser {
 	private String username;
 
 	@NotNull
-	@Length(max = 10)
 	private String password;
-	
+
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "service_center_id", foreignKey = @ForeignKey(name = "fk1_users"))
 	private ServiceCenter servicecenter;
-	
+
 	/**
-	 * 1 - admin rights
-	 * 2 - user rights
+	 * 1 - admin rights 2 - user rights
 	 */
 	@NotNull
 	@Check(constraints = "role in (1, 2)")
 	private int role;
-	
-	public AppUser() {}
+
+	public AppUser() {
+	}
 
 	public AppUser(int id, @NotNull @Length(max = 10) String username, @NotNull @Length(max = 10) String password,
 			@NotNull ServiceCenter servicecenter, @NotNull int role) {
@@ -89,6 +88,16 @@ public class AppUser {
 		return role;
 	}
 
+	public String getAuthorityName() {
+		switch (this.role) {
+		case 1:
+			return "admin";
+		case 2:
+			return "user";
+		}
+		return "";
+	}
+
 	public void setRole(int role) {
 		this.role = role;
 	}
@@ -98,5 +107,5 @@ public class AppUser {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", servicecenter="
 				+ servicecenter + ", role=" + role + "]";
 	}
-	  
+
 }

@@ -37,8 +37,7 @@ INSERT INTO public.claims_progress VALUES (nextval('public.claims_progress_id_se
 
 INSERT INTO public.claims_progress VALUES (nextval('public.claims_progress_id_seq'), '2021-12-05 12:52:12', 'Test comment 4', 2, 1);
 
-insert into public.person values(nextval('public.person_id_seq'), 10, 'John@gmail.com', 'John');
-
-insert into public.person values(nextval('public.person_id_seq'), 22, 'Jane@gmail.com', 'Jane');
+--username:admin password:password
+insert into public.users values(nextval('public.users_id_seq'), '$2a$10$Ej3eIXvUj6ML9bmi3Thhq.VEmNU5IY2yrcxHrjsZSlQ67O0uPa.EG', 1, 'admin', 1);
 
 commit;

@@ -26,8 +26,9 @@ public class AppUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException("User not found");
 		}
 
-		List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority("user"));
+		List<SimpleGrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(user.getAuthorityName()));
 
 		return new User(user.getUsername(), user.getPassword(), authorities);
+		//return new User("asd", "asd", authorities);
 	}
 }

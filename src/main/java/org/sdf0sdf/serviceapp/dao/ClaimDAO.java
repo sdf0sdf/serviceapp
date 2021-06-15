@@ -18,18 +18,6 @@ public class ClaimDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-//	public List<ClaimView> index() {
-//		Session session = this.sessionFactory.openSession();
-//		List<ClaimView> claims = session.createQuery("select NEW ClaimView (c, cp) \n" + 
-//				"  from Claim c,\n" + 
-//				"       ClaimProgress cp\n" + 
-//				" where c.id = cp.claim\n" + 
-//				"   and cp.claimprogressdate = \n" + 
-//				"   (select max(cps.claimprogressdate) from ClaimProgress cps where cps.claim = c.id)", ClaimView.class).getResultList();
-//		session.close();
-//		return claims;
-//	}
-
 	public List<ClaimsView> index() {
 		Session session = this.sessionFactory.openSession();
 		List<Claim> claims = session.createQuery("select c \n" + "  from Claim c ", Claim.class).getResultList();

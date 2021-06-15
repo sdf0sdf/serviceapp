@@ -16,7 +16,7 @@ public class UserDAO {
 
 	public AppUser findByUsername(String username) {
 		Session session = this.sessionFactory.openSession();
-		Query query = session.createQuery("From user where username=:username");
+		Query query = session.createQuery("From AppUser where username=:username");
 		query.setParameter("username", username);
 		AppUser user = (AppUser) query.getSingleResult();
 		session.close();

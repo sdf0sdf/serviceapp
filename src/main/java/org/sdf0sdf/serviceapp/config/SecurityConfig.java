@@ -12,28 +12,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	AppUserDetailsService userDetailsService;
-	
+
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-	 http
-	   .csrf().disable()
-	   .authorizeRequests().anyRequest().authenticated()
-	   .and().httpBasic()
-	   .and().sessionManagement().disable();
+	public void configure(AuthenticationManagerBuilder builder) throws Exception {
+		builder.userDetailsService(userDetailsService);
 	}
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-	   return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Override
-	public void configure(AuthenticationManagerBuilder builder) 
-	throws Exception {
-	  builder.userDetailsService(userDetailsService);
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests().antMatchers("/login").permitAll().antMatchers("/admin/**").hasAuthority("admin")
+				.antMatchers("/**").hasAnyAuthority("admin", "user").and().formLogin().and().logout()
+				.logoutSuccessUrl("/login").permitAll().and().csrf().disable();
 	}
 }
