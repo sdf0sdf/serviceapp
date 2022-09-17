@@ -26,7 +26,6 @@ public class ClaimDAO {
 //				" where c.id = cp.claim\n" + 
 //				"   and cp.claimprogressdate = \n" + 
 //				"   (select max(cps.claimprogressdate) from ClaimProgress cps where cps.claim = c.id)", ClaimView.class).getResultList();
-//		session.close();
 //		return claims;
 //	}
 
@@ -34,7 +33,6 @@ public class ClaimDAO {
 		Session session = this.sessionFactory.openSession();
 		List<Claim> claims = session.createQuery("select c \n" + "  from Claim c ", Claim.class).getResultList();
 		List<ClaimsView> claimsview = claims.stream().map(x -> new ClaimsView(x)).collect(Collectors.toList());
-		session.close();
 		return claimsview;
 	}
 
@@ -42,7 +40,6 @@ public class ClaimDAO {
 		Session session = this.sessionFactory.openSession();
 		Claim claim = session.get(Claim.class, id);
 		ClaimsView claimsview = new ClaimsView(claim);
-		session.close();
 		return claimsview;
 	}
 
@@ -51,7 +48,6 @@ public class ClaimDAO {
 		Transaction tx = session.beginTransaction();
 		session.persist(claim);
 		tx.commit();
-		session.close();
 	}
 
 	public void update(Claim updatedClaim) {
@@ -59,7 +55,6 @@ public class ClaimDAO {
 		Transaction tx = session.beginTransaction();
 		session.update(updatedClaim);
 		tx.commit();
-		session.close();
 	}
 
 	public void delete(int id) {
@@ -68,7 +63,6 @@ public class ClaimDAO {
 		Claim claim = (Claim) session.load(Claim.class, id);
 		session.remove(claim);
 		tx.commit();
-		session.close();
 
 	}
 
@@ -76,7 +70,6 @@ public class ClaimDAO {
 		Session session = this.sessionFactory.openSession();
 		List<ProductType> producttypes = session
 				.createQuery("select pt \n" + "  from ProductType pt ", ProductType.class).getResultList();
-		session.close();
 		return producttypes;
 	}
 
@@ -84,7 +77,6 @@ public class ClaimDAO {
 		Session session = this.sessionFactory.openSession();
 		List<ServiceCenter> servicecenters = session
 				.createQuery("select pt \n" + "  from ServiceCenter pt ", ServiceCenter.class).getResultList();
-		session.close();
 		return servicecenters;
 	}
 
