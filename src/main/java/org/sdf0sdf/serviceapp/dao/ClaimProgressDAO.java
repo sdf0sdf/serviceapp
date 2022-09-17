@@ -20,7 +20,6 @@ public class ClaimProgressDAO {
 		List<ClaimProgress> claimprogress = session
 				.createQuery("select cp \n" + "  from ClaimProgress cp where claim_id = :claimId ", ClaimProgress.class)
 				.setParameter("claimId", claimId).getResultList();
-		session.close();
 		return claimprogress;
 	}
 
@@ -29,14 +28,12 @@ public class ClaimProgressDAO {
 		Transaction tx = session.beginTransaction();
 		session.persist(claimprogress);
 		tx.commit();
-		session.close();
 	}
 
 	public List<ClaimStatus> getClaimStatuses() {
 		Session session = this.sessionFactory.openSession();
 		List<ClaimStatus> claimstatuses = session
 				.createQuery("select pt \n" + "  from ClaimStatus pt ", ClaimStatus.class).getResultList();
-		session.close();
 		return claimstatuses;
 	}
 }

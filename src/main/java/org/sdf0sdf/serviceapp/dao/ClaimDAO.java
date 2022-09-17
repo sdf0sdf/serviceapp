@@ -84,7 +84,6 @@ public class ClaimDAO {
 		Session session = this.sessionFactory.openSession();
 		List<ServiceCenter> servicecenters = session
 				.createQuery("select pt \n" + "  from ServiceCenter pt ", ServiceCenter.class).getResultList();
-		session.close();
 		return servicecenters;
 	}
 
